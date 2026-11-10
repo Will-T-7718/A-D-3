@@ -34,7 +34,7 @@ int IN2 = 9;
 int IN3 = 12;
 int IN4 = 13;
 
-L289NX2 myMotors(IN1,IN2,IN3,IN4)
+L289NX2 myMotors(IN1,IN2,IN3,IN4);
 
 long duration;
 int distance;
