@@ -114,24 +114,26 @@ void loop()
     Serial.print('\t');
   }
   Serial.println("<Line Sensor Values");
-  Serial.println();
-  delay(100);
+  Serial.println(); 
   UltrasonicSensor();
   sensorfunc();
   ColourSensor();
+  delay(100);
 }
 
 void SDCardWrite()
 {
   myFile = SD.open("test.txt", FILE_WRITE);
 
-  // if the file opened okay, write to it:
+  // opens file and writes to it
   if (myFile) {
     Serial.print("writing to test.txt");
-    myFile.println("LRFBLRFB");
+    myFile.println("RightLeftForwardBack");
+    myFile.println("End File")
     myFile.close();
   } 
   else 
+  // if it cant open file
   {
   Serial.print("Failed To Open");
   }
