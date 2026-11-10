@@ -2,6 +2,9 @@
 #include <L298NX2.h>
 #include <SD.h>
 
+//SD Card
+File myFile;
+const int CSPin = 10;
 
 QTRSensors qtr;
 const uint8_t SensorCount = 4;
@@ -28,8 +31,8 @@ int frequency = 0;
 //Motor
 int IN1 = 8;
 int IN2 = 9;
-int IN3 = 10;
-int IN4 = 11;
+int IN3 = 12;
+int IN4 = 13;
 
 L289NX2 myMotors(IN1,IN2,IN3,IN4)
 
@@ -89,6 +92,15 @@ void setup()
     Serial.print("Calibrated: ");
     Serial.println(i);
   }
+  Serial.print("Initializing SD card...");
+
+  if (!SD.begin(CSPin)) 
+  {
+    Serial.println("initialization failed");
+    return;
+  }
+    Serial.println("initialization done");
+  }
 }
 
 void loop() 
@@ -108,6 +120,23 @@ void loop()
   sensorfunc();
   ColourSensor();
 }
+
+void SDCardWrite()
+{
+  myFile = SD.open("test.txt", FILE_WRITE);
+
+  // if the file opened okay, write to it:
+  if (myFile) {
+    Serial.print("writing to test.txt");
+    myFile.println("LRFBLRFB");
+    myFile.close();
+  } 
+  else 
+  {
+  Serial.print("Failed To Open");
+  }
+}
+
 
 
 void ColourSensor()
