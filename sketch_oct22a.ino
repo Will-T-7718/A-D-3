@@ -34,7 +34,7 @@ int IN2 = 9;
 int IN3 = 12;
 int IN4 = 13;
 
-L289NX2 myMotors(IN1,IN2,IN3,IN4);
+L298NX2 myMotors(IN1,IN2,IN3,IN4);
 
 long duration;
 int distance;
@@ -101,7 +101,7 @@ void setup()
   }
     Serial.println("initialization done");
   }
-}
+
 
 void loop() 
 {
@@ -126,10 +126,11 @@ void SDCardWrite()
   myFile = SD.open("test.txt", FILE_WRITE);
 
   // opens file and writes to it
-  if (myFile) {
+  if (myFile) 
+  {
     Serial.print("writing to test.txt");
     myFile.println("RightLeftForwardBack");
-    myFile.println("End File")
+    myFile.println("End File");
     myFile.close();
   } 
   else 
