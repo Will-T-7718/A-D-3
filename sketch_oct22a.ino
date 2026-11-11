@@ -5,6 +5,7 @@
 //SD Card
 File myFile;
 const int CSPin = 10;
+String movTst;
 
 QTRSensors qtr;
 const uint8_t SensorCount = 4;
@@ -99,9 +100,28 @@ void setup()
     Serial.println("initialization failed");
     return;
   }
-    Serial.println("initialization done");
-  }
+  Serial.println("initialization done");
+  SDCardWriteRead();
 
+  for (int i = 0; i < movTst.length(); i++)
+  {
+    switch(moves[i])
+    {
+      case 'L':
+      left();
+      break;
+      case 'R':
+      right();
+      break;
+      case 'F':
+      forward();
+      break;
+      case 'B':
+      back();
+      break; 
+    }
+  }
+}
 
 void loop() 
 {
@@ -114,33 +134,72 @@ void loop()
     Serial.print('\t');
   }
   Serial.println("<Line Sensor Values");
-  Serial.println(); 
   UltrasonicSensor();
   sensorfunc();
   ColourSensor();
   delay(100);
+  Serial.println(); 
+
+
 }
 
-void SDCardWrite()
+void SDCardWriteRead()
 {
-  myFile = SD.open("test.txt", FILE_WRITE);
+  myFile = SD.open("testWrite.txt", FILE_WRITE);
 
   // opens file and writes to it
   if (myFile) 
   {
     Serial.print("writing to test.txt");
-    myFile.println("RightLeftForwardBack");
-    myFile.println("End File");
+    myFile.println("LLRRFFBB");
     myFile.close();
+    Serial.println();
   } 
   else 
   // if it cant open file
   {
-  Serial.print("Failed To Open");
+    Serial.println("Failed To Open");
+  }
+
+  File myFile = SD.open("dataRead.txt", FILE_READ);
+
+  if (myFile) 
+  {
+    if (myFile.available()) 
+    {
+      // Read the entire file into a String
+      String fileContent = myFile.readString();
+      Serial.println("File contents:");
+      String movTst = fileContent;
+      Serial.println(fileContent); 
+    }
+    myFile.close(); // Always close the file when finished
+  } 
+  else 
+  {
+    Serial.println("Error opening data.txt");
   }
 }
 
+void left()
+{
+  Serial.println("move left");
+}
 
+void right()
+{
+  Serial.println("move right");
+}
+
+void forward()
+{
+  Serial.println("move forward");
+}
+
+void back()
+{
+  Serial.println("move back");
+}
 
 void ColourSensor()
 {
